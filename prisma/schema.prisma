@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum Channel {
+  WEB
+  APP_MOBILE
+  CHAT
+  CALL_CENTER
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  password   String
+  age        Int
+  phone      String?
+  role       Role      @default(CLIENT)
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  UsersAddress UsersAddress[]
+
+  @@map("users")
+}
+
+model Address {
+  id          String  @id @default(uuid())
+  rua         String
+  numero      String
+  bairro      String
+  complemento String?
+  CEP         String
+  cidade      String
+  estado      String
+
+  UsersAddress UsersAddress[]
+
+  @@map("address")
+}
+
+model UsersAddress {
+  id         String @id @default(uuid())
+  user_id    String @unique()
+  address_id String
+
+  user    User    @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  address Address @relation(fields: [address_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+
+  @@index([user_id])
+  @@map("users_address")
+}

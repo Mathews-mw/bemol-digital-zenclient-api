@@ -1,7 +1,11 @@
 # Zenclient API
+
 API da aplicação zenclient. Esse projeto faz parte do desafio bemol-digital.
 
+> **Nota:** Essa API se comunica com a aplicação web **zenclient-web**. Veja como executar a parte web: [repositório zenclient-web](https://github.com/Mathews-mw/bemol-digital-zenclient-web)
+
 ## Setup e execução através do Docker container
+
 Para rodar o projeto em um container docker, será necessário antes montar a imagem do projeto e banco de dados. 
 1. Dentro da pasta raiz do projeto onde se encontra o arquivo *Dockerfile* e *docker-compose.yml*, rode o seguinte comando:
 
@@ -25,6 +29,9 @@ docker exec -it zenclient-api /bin/bash
 ```bash
 npx prisma migrate dev
 ```
+## Sobre a aplicação
+Essa aplicação é um simples CRUD para cadastro, edição, listagem de usuários e autenticação. A aplicação é usada por outro serviço, no qual complementa esse desafio. 
+
 ## Recursos da aplicação
 As principais caracterísitcas são:
 - API desenvolvida em NodeJS;
@@ -36,9 +43,6 @@ As principais caracterísitcas são:
 - Vitest;
 - Git Actions para os testes; 
 - Postgres para banco de dados;
-
-## Sobre a aplicação
-Essa aplicação é um simples CRUD para cadastro, edição, listagem de usuários e autenticação. A aplicação é usada por outro serviço, no qual complementa esse desafio. 
 
 ## Testes
 

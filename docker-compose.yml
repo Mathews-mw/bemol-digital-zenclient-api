@@ -1,11 +1,41 @@
 version: '3'
 
+networks:
+  zenclient_default:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
+
 services:
-  api-zenclient-pg:
+  zenclient-pg:
     image: bitnami/postgresql
+    container_name: zenclient_database
+    restart: unless-stopped
+    hostname: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
+    networks:
+      - zenclient_default
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=zenclient
+    volumes:
+      - pgdata:/data/postgres
+
+  app-api:
+    stdin_open: true
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: zenclient-api
+    hostname: zenclient_api
+    ports:
+      - "3636:3636"
+    networks:
+      - zenclient_default
+    depends_on:
+      - zenclient-pg
+    restart: always
